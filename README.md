@@ -26,8 +26,8 @@
 
 ## 🧐 About <a name = "about"></a>
 
-This is an Introduction to flask. Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries.
-In this Repo we will be creating a simple web app (TODO) using flask to get started in flask.
+Flask is a micro web framework written in Python. It is classified as a microframework because it does not require particular tools or libraries.
+In this Repo, we will be creating a simple web app (TODO Master).
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 

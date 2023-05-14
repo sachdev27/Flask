@@ -11,26 +11,28 @@
 
 {% block body %}
 
-<div class="content">
+<div class="tablediv">
     <table>
         <tr>
             <th>Task</th>
             <th>Added</th>
             <th>Actions</th>
         </tr>
+        {% for task in tasks %}
         <tr>
-            <td></td>
-            <td></td>
+            <td>{{task.content}}</td>
+            <td>{{task.date_created.date()}}</td>
             <td>
                 <a href="">Delete</a>
                 <br>
                 <a href="">update</a>
             </td>
         </tr>
+        {% endfor %}
     </table>
 
     <form action="/" method="post">
-        <input type="text" name="task" id="task" placeholder="Enter task">
+        <input type="text" name="content" id="content" placeholder="Enter task">
         <input type="submit" value="Add task">
     </form>
 
