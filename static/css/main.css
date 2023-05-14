@@ -3,7 +3,7 @@
 body {
     margin: 0;
     font-family: sans-serif;
-    background-color: blanchedalmond;
+    background-color: darksalmon;
     text-align: center;
 }
 
@@ -13,7 +13,7 @@ table {
     border-collapse: collapse;
     width: 50%;
     border: 1px solid #000000;
-    font-size: 12px;
+    font-size: 13px;
     margin: 30px auto;
 }
 
@@ -29,7 +29,7 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #594caf;
     font-size: large;
     color: white;
 }

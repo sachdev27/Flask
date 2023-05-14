@@ -31,6 +31,40 @@ def index():
         tasks = Todo.query.order_by(Todo.date_created).all()
         return render_template('index.html',tasks = tasks) # IMP
 
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    task_to_delete = Todo.query.get_or_404(id) # IMP 
+# When you use Todo.query, it creates a query object for the Todo model, 
+# which allows you to perform queries on the todos table.
+    
+    try:
+        db.session.delete(task_to_delete)
+        # db is an instance of SQLAlchemy, which is used to manage the connection and interaction with 
+        # the database. However, to perform queries on the Todo model, 
+        # we need to use the query method of the Todo model.
+        db.session.commit()
+        return redirect("/")
+    except:
+        return "Error Deleting Task"
+
+@app.route('/update/<int:id>',methods=['GET','POST'])
+def update(id):
+    task = Todo.query.get_or_404(id)
+    if request.method == 'POST':
+        task.content = request.form['content']
+        
+        try:
+            db.session.commit()
+            return redirect("/")
+        except:
+            return "Error Updating Task"
+        
+    else:
+        return render_template('update.html',task = task)
+    
+
+
 if __name__ ==  '__main__':
     app.run(debug=True)
     
