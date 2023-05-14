@@ -21,13 +21,8 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
-- [Deployment](#deployment)
-- [Usage](#usage)
+- [Installation](#installation)
 - [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
-- [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
 
 ## 🧐 About <a name = "about"></a>
 
@@ -47,7 +42,7 @@ The project requires
 - virtualenv. You can download virtualenv from [here](https://virtualenv.pypa.io/en/latest/installation.html)
 
 
-### Installing
+## Installation <a name = "installation"></a>
 
 Installing the project is very simple. Just follow the steps below
 
