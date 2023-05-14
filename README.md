@@ -2,7 +2,7 @@
   <!-- <Image Here> -->
 </p>
 
-<h3 align="center">Project Title</h3>
+<h3 align="center">Introduction to Flask</h3>
 
 <div align="center">
 
@@ -13,7 +13,7 @@
 
 ---
 
-<p align="center"> Few lines describing your project.
+<p align="center"> This is an Introduction to flask. This repo contains a simple web app (TODO) using flask to get started in flask.
     <br> 
 </p>
 
