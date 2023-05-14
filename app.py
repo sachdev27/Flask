@@ -73,4 +73,4 @@ if __name__ ==  '__main__':
 # app.app_context().push()
 # db_create_all()    
 
-    
+
