@@ -7,9 +7,9 @@ import os
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 #Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,'db.sqlite') #IMP
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db.sqlite') #IMP
 # For Warning 
-app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #Init DB
 db = SQLAlchemy(app) # Intialized Database
 ma = Marshmallow(app)
@@ -47,9 +47,23 @@ class ProductSchema(ma.Schema):
 product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)
 
+# Add Product
 
+@app.route('/product',methods=['POST'])
+def add_product():
+    name = request.json['name'] 
+    description = request.json['description'] 
+    price = request.json['price'] 
+    qty = request.json['qty'] 
+    
+    new_product = Product(name,description,price,qty) 
+    
+    db.session.add(new_product) 
+    db.session.commit() 
+    
+    return product_schema.jsonify(new_product) 
 
-
+#  Run Server
 if __name__ == "__main__":
     app.run(debug=True)
     
