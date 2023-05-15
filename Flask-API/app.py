@@ -11,7 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,'db.
 # For Warning 
 app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
 #Init DB
-db = SQLAlchemy(app)
+db = SQLAlchemy(app) # Intialized Database
 ma = Marshmallow(app)
 
 
@@ -44,8 +44,8 @@ class ProductSchema(ma.Schema):
 # For example, we can specify which fields we want to be returned, or if we want to add any additional fields.
 
 # Init Schema
-product_schema = ProductSchema(strict=True)
-products_schema = ProductSchema(many=True,strict=True)
+product_schema = ProductSchema()
+products_schema = ProductSchema(many=True)
 
 
 
@@ -53,3 +53,7 @@ products_schema = ProductSchema(many=True,strict=True)
 if __name__ == "__main__":
     app.run(debug=True)
     
+# Create Database from Terminal
+# >>> from app import app, db
+# >>> app.app_context().push()
+# >>> db.create_all()
