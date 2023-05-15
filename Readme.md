@@ -28,6 +28,4 @@ python app.py
 
 ## License
 
-```text
 [MIT](https://choosealicense.com/licenses/mit/)
-```
