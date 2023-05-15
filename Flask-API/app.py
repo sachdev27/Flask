@@ -34,6 +34,22 @@ class Product(db.Model):
         self.price = price
         self.qty = qty
 
+# Product Schema
+class ProductSchema(ma.Schema):
+    class Meta:
+        fields = ('id','name','description','price','qty')
+
+# Why do we need a schema?
+# A schema is used to define how the data will be represented when it is returned as a response.
+# For example, we can specify which fields we want to be returned, or if we want to add any additional fields.
+
+# Init Schema
+product_schema = ProductSchema(strict=True)
+products_schema = ProductSchema(many=True,strict=True)
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
     
