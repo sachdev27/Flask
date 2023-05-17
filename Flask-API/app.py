@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
@@ -17,7 +17,8 @@ ma = Marshmallow(app)
 
 @app.route('/',methods=['GET'])
 def get():
-    return jsonify({'msg':'Hello World!'})
+    all_products = Product.query.all()
+    return render_template("index.html",products=all_products)
 
 
 # Product Class/Model
@@ -35,7 +36,7 @@ class Product(db.Model):
         self.qty = qty
 
 # Product Schema
-class ProductSchema(ma.Schema):
+class ProductSchema(ma.Schema): #IMP
     class Meta:
         fields = ('id','name','description','price','qty')
 
@@ -48,30 +49,78 @@ product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)
 
 # Add Product
-
 @app.route('/product',methods=['POST'])
 def add_product():
+    
+    content_type = request.headers.get('Content-Type')
+    print(content_type)
+    if content_type == 'application/json':
+        name = request.json['name'] 
+        description = request.json['description'] 
+        price = request.json['price'] 
+        qty = request.json['qty'] 
+    
+    elif content_type == 'application/x-www-form-urlencoded':
+        name = request.form['name'] 
+        description = request.form['description'] 
+        price = request.form['price'] 
+        qty = request.form['qty']
+        
+    new_product = Product(name,description,price,qty) 
+    
+    try:
+        db.session.add(new_product) 
+        db.session.commit()
+        return get()
+    except:
+        return "Error Creating Product"
+    
+    
+
+# Update Product
+@app.route('/product/<id>',methods=['PUT'])
+def update_product(id):
+    product = Product.query.get(id)
+ 
     name = request.json['name'] 
     description = request.json['description'] 
     price = request.json['price'] 
-    qty = request.json['qty'] 
+    qty = request.json['qty']
+    
+    
+    product.name = name 
+    product.description = description
+    product.price = price
+    product.qty = qty
     
     new_product = Product(name,description,price,qty) 
     
-    db.session.add(new_product) 
+    # db.session.add(new_product) No need to add
     db.session.commit() 
     
-    return product_schema.jsonify(new_product) 
+    # return product_schema.jsonify(new_product) 
+    return redirect("/")
 
+
+# Get all Product 
 @app.route('/product',methods=['GET'])
 def get_products():
     all_products = Product.query.all()
     result = products_schema.dump(all_products)
     return jsonify(result)
 
+# Get Single Product by passing ID
 @app.route('/product/<id>',methods=['GET'])
 def get_product(id):
     single_product = Product.query.get(id)
+    return product_schema.jsonify(single_product)
+
+# Delete a Product
+@app.route('/product/<id>',methods=['DELETE'])
+def delete_product(id):
+    single_product = Product.query.get(id)
+    db.session.delete(single_product)
+    db.session.commit()
     return product_schema.jsonify(single_product)
 
 #  Run Server
