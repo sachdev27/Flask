@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify,render_template
+from flask import Flask, request, jsonify,render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
@@ -53,7 +53,7 @@ products_schema = ProductSchema(many=True)
 def add_product():
     
     content_type = request.headers.get('Content-Type')
-    print(content_type)
+    # print(content_type)
     if content_type == 'application/json':
         name = request.json['name'] 
         description = request.json['description'] 
@@ -68,13 +68,16 @@ def add_product():
         
     new_product = Product(name,description,price,qty) 
     
-    try:
-        db.session.add(new_product) 
-        db.session.commit()
-        return get()
-    except:
-        return "Error Creating Product"
-    
+    # try:
+    #     db.session.add(new_product) 
+    #     db.session.commit()
+    #     return redirect("/")
+    # except:
+    #     return "Error Creating Product"
+
+    db.session.add(new_product) 
+    db.session.commit()
+    return redirect("/")
     
 
 # Update Product
@@ -121,7 +124,8 @@ def delete_product(id):
     single_product = Product.query.get(id)
     db.session.delete(single_product)
     db.session.commit()
-    return product_schema.jsonify(single_product)
+    # return product_schema.jsonify(single_product)
+    return redirect("/")
 
 #  Run Server
 if __name__ == "__main__":
