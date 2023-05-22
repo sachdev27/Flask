@@ -1,5 +1,5 @@
-
 from flask import Flask
+import os
 
 # Create the application factory function
 def create_app(test_config=None):
@@ -9,7 +9,7 @@ def create_app(test_config=None):
     # instance_relative_config=True tells the app that configuration files are relative to the instance folder.
     if test_config is None:
         app.config.from_mapping(
-            SECRET_KEY = "dev"
+            SECRET_KEY = os.environ.get("SECRET_KEY")
         )
     else:
         app.config.from_mapping(test_config)
