@@ -1,6 +1,8 @@
 from flask import Flask
 import os
 from src.database import db
+from src.auth import auth
+from src.bookmarks import bookmarks
 
 # Create the application factory function
 def create_app(test_config=None):
@@ -29,6 +31,9 @@ def create_app(test_config=None):
     
     db.app = app
     db.init_app(app)
+    app.register_blueprint(auth)
+    app.register_blueprint(bookmarks)
+    
     return app
     
 
