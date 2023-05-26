@@ -1,5 +1,6 @@
 from flask import Flask
 import os
+from src.database import db
 
 # Create the application factory function
 def create_app(test_config=None):
@@ -9,7 +10,8 @@ def create_app(test_config=None):
     # instance_relative_config=True tells the app that configuration files are relative to the instance folder.
     if test_config is None:
         app.config.from_mapping(
-            SECRET_KEY = os.environ.get("SECRET_KEY")
+            SECRET_KEY = os.environ.get("SECRET_KEY"),
+            SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
         )
     else:
         app.config.from_mapping(test_config)
@@ -25,6 +27,8 @@ def create_app(test_config=None):
         return {"message":"Hello World!"}
 
     
+    db.app = app
+    db.init_app(app)
     return app
     
 

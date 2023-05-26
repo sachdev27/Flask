@@ -1,3 +1,7 @@
 {
-    "liveServer.settings.multiRootWorkspaceName": "Introduction-Codecamp"
+    "liveServer.settings.multiRootWorkspaceName": "Introduction-Codecamp",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none"
 }
