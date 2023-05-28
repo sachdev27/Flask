@@ -3,7 +3,7 @@ import os
 from src.database import db
 from src.auth import auth
 from src.bookmarks import bookmarks
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager 
 
 # Create the application factory function
 def create_app(test_config=None):
