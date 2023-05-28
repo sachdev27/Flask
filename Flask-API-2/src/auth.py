@@ -64,7 +64,7 @@ def register():
         HTTP_201_CREATED,
     )
 
-
+# ---------------------------------------------------------------------------------------------
 @auth.post("/login")
 def login():
     email = request.json.get("email", "")
@@ -102,6 +102,7 @@ def login():
                 HTTP_401_UNAUTHORIZED,
             )
 
+# ---------------------------------------------------------------------------------------------
 
 @auth.get("/me")
 @jwt_required()
@@ -118,4 +119,17 @@ def me():
         "email" : user.email
     }), HTTP_200_OK
 
+
+# ---------------------------------------------------------------------------------------------
+
+
+@auth.post('/token/refresh')
+@jwt_required(refresh=True)
+def refresh():
+    identify = get_jwt_identity()
+    access = create_access_token(identity=identify)
+    
+    return jsonify({
+        'access' : access
+    }),HTTP_200_OK
 
