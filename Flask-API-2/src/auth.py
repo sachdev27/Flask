@@ -1,5 +1,5 @@
 from flask import Blueprint,request,jsonify
-from werkzeug import generate_password_hash,check_password_hash
+from werkzeug.security import generate_password_hash,check_password_hash
 from src.constants.http_status_codes import *
 import validators
 from src.database import User,db
@@ -52,7 +52,7 @@ def register():
     # Adding the user to the database 
     db.session.add(user)
     # Saving the change in database
-    db.commit()
+    db.session.commit()
     
     
     

@@ -3,6 +3,7 @@ import string
 import random
 from datetime import datetime
 
+# Create the SQLAlchemy object
 db = SQLAlchemy()
 
 

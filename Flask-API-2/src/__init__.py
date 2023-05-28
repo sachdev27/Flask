@@ -29,8 +29,14 @@ def create_app(test_config=None):
         return {"message":"Hello World!"}
 
     
+    # Initialize the database
     db.app = app
     db.init_app(app)
+    
+    # What are Blue print ?
+    # Blueprints are a way to organize related routes in a Flask application.
+    # Blueprints are registered with the Flask application object.
+    # Blueprints are created with a name and import name.
     app.register_blueprint(auth)
     app.register_blueprint(bookmarks)
     
