@@ -98,6 +98,8 @@ def handle_bookmark():
             'meta' : meta
             }),HTTP_200_OK
 
+# ------------------------------------------------------------------------------------------
+
 
 @bookmarks.get("/<int:id>")
 @jwt_required()
@@ -121,6 +123,8 @@ def get_bookmark(id):
             'message' : 'No bookmarks exits'
         }),HTTP_404_NOT_FOUND
         
+        
+# ------------------------------------------------------------------------------------------
         
 @bookmarks.put('/<int:id>')
 @bookmarks.patch('/<int:id>')
@@ -160,5 +164,25 @@ def update(id):
             'updated_at' : bookmark.updated_at
         }),HTTP_200_OK
 
+# ------------------------------------------------------------------------------------------
+
      
+@bookmarks.delete("/<int:id>")
+@jwt_required()
+def delete_bookmark(id):
+    current_user = get_jwt_identity()
+    
+    bookmark = Bookmark.query.filter_by(id=id,user_id=current_user).first()
+    
+    if bookmark:
+        db.session.delete(bookmark)
+        db.session.commit()
         
+        return jsonify({
+            'Message' : "Bookmark was deleted"
+        }),HTTP_204_NO_CONTENT
+    else:
+        return jsonify({
+            'message' : 'No bookmarks exits'
+        }),HTTP_404_NOT_FOUND
+    
