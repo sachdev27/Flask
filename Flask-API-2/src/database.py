@@ -44,7 +44,7 @@ class Bookmark(db.Model):
         
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
-        self.short_url = generate_short_url()
+        self.short_url = self.generate_short_url()
         
     def __repr__(self) -> str:
         return f'Bookmark >>> {self.url}'   
