@@ -120,3 +120,45 @@ def get_bookmark(id):
         return jsonify({
             'message' : 'No bookmarks exits'
         }),HTTP_404_NOT_FOUND
+        
+        
+@bookmarks.put('/<int:id>')
+@bookmarks.patch('/<int:id>')
+@jwt_required()
+
+def update(id):
+    
+    current_user = get_jwt_identity()
+    bookmark = Bookmark.query.filter_by(id=id,user_id=current_user).first() # Get the unique bookmark
+    
+    if  not bookmark:
+        return jsonify({
+            "Message" : "No Bookmark exist with this ID"
+        })
+                
+    else:
+        new_url = request.get_json().get('url','')
+        new_body = request.get_json().get('body','')
+        
+        if not validators.url(new_url):
+            return jsonify({
+            "Message" : 'Not Valid Url'
+        })
+            
+        bookmark.url = new_url
+        bookmark.body = new_body
+        
+        db.session.commit()
+        
+        return jsonify({
+            'id' : bookmark.id,
+            'url' : bookmark.url,
+            'short_url' : bookmark.short_url,
+            'visits' : bookmark.visits,
+            'body' : bookmark.body,
+            'created_at' : bookmark.create_at,
+            'updated_at' : bookmark.updated_at
+        }),HTTP_200_OK
+
+     
+        
