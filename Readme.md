@@ -4,7 +4,9 @@ This repository contains projects developed while learning Flask.
 
 ## Projects
 
-- Bookmark App 
+- Todo App
+- Blog App
+- URL Shortener App
 
 ## Setup
 
