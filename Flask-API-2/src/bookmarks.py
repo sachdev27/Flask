@@ -105,7 +105,6 @@ def handle_bookmark():
 @jwt_required()
 def get_bookmark(id):
     current_user = get_jwt_identity()
-    
     bookmark = Bookmark.query.filter_by(id=id,user_id=current_user).first()
     
     if bookmark:
@@ -186,3 +185,25 @@ def delete_bookmark(id):
             'message' : 'No bookmarks exits'
         }),HTTP_404_NOT_FOUND
     
+    
+# ------------------------------------------------------------------------------------------
+
+@bookmarks.get("/stats")
+@jwt_required()
+def stats():
+    current_user = get_jwt_identity()
+    data = []
+    items = Bookmark.query.filter_by(user_id=current_user)
+    
+    for item in items:
+        new_link = {
+            'visits' : item.visits,
+            'url' : item.url,
+            'shorturl' : item.short_url,
+            'id' : item.id,
+        }
+        data.append(new_link)
+        
+    return jsonify({
+        'Data' : data
+    }),HTTP_200_OK
