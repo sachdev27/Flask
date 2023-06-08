@@ -1,11 +1,11 @@
 # Learning Flask
 
-This repository contains projects developed while learning Flask.
+This repository contains projects developed while learning Flask. The projects are taken from many youtube tutorials and other resources. The projects are developed to learn the basics of Flask and to get familiar with the framework. The projects are not intended to be used in production.
 
 ## Projects
 
+- CRUD App (BASIC)
 - Todo App
-- Blog App
 - URL Shortener App
 
 ## Setup
@@ -27,7 +27,5 @@ python app.py
 ## References
 
 - [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/)
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
+-[FLASK BOOKMARKS API](https://www.youtube.com/playlist?list=PLx-q4INfd95FIt5v6Pza6HjUwtK7sOXmN)
+-[FreeCodeCamp](https://www.youtube.com/watch?v=Z1RJmh_OqeA)
