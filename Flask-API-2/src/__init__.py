@@ -1,9 +1,10 @@
-from flask import Flask
+from flask import Flask,jsonify,redirect
 import os
-from src.database import db
+from src.database import db,Bookmark
 from src.auth import auth
 from src.bookmarks import bookmarks
 from flask_jwt_extended import JWTManager 
+from src.constants.http_status_codes import *
 
 # Create the application factory function
 def create_app(test_config=None):
@@ -20,6 +21,19 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(test_config)
         # Load the instance config, if it exists, when not testing
+        
+    
+    @app.get('/<short_url>')
+    def redirect_to_url(short_url):
+        bookmark = Bookmark.query.filter_by(short_url=short_url).first_or_404()
+        
+        if bookmark:
+            bookmark.visits = bookmark.visits+1
+            db.session.commit()
+
+            return redirect(bookmark.url)
+        
+
         
     @app.route("/")
     def index():

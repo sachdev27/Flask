@@ -40,8 +40,6 @@ class Bookmark(db.Model):
             return picked_char
         
         
-        
-        
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
         self.short_url = self.generate_short_url()
