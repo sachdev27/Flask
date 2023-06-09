@@ -77,46 +77,92 @@ db.session.commit()
 ```python
 # Querying
 User.query.all() # Return all users in the database
+Output: [<User 'admin'>, <User 'guest'>]
+
 User.query.first() # Return the first user
+Output: <User 'admin'>
+
 User.query.filter_by(username='admin').all() # Return all users with username 'admin'
+Output: [<User 'admin'>]
+
 User.query.filter_by(username='admin').first() # Return the first user with username 'admin'
+Output: <User 'admin'>
+
 User.query.order_by(User.username).all() # Return all users ordered by username
+Output: [<User 'admin'>, <User 'guest'>]
+
 User.query.limit(10).all() # Return the first 10 users
+Output: [<User 'admin'>, <User 'guest'>]    
+
 User.query.get(1) # Return the user with id 1
+Output: <User 'admin'>
+
 User.query.filter_by(username='admin').count() # Return the number of users with username 'admin'
+Output: 1
+```
+
+```python
 
 # Using filter
 User.query.filter(User.username.like('%dmin%')).all() # Return all users with username containing 'dmin'
-User.query.filter(User.username.like('Ad%')).all() # Return all users with username starting with 'Ad'
-User.query.filter(User.username == 'admin').all() # Return all users with username 'admin'
+Output: [<User 'admin'>]
 
+User.query.filter(User.username.like('Ad%')).all() # Return all users with username starting with 'Ad'
+Output: [<User 'admin'>]
+
+User.query.filter(User.username == 'admin').all() # Return all users with username 'admin'
+Output: [<User 'admin'>]
+```
+
+```python
 # Using or
 from sqlalchemy import or_
 User.query.filter(or_(User.username == 'admin', User.username == 'guest')).all() # Return all users with username 'admin' or 'guest'
+Output: [<User 'admin'>, <User 'guest'>]    
 
 # Using and
 from sqlalchemy import and_
 User.query.filter(and_(User.username == 'admin', User.email == 'test@example.com')).all() # Return all users with username 'admin' and email 'test@example'
+Output: [<User 'admin'>]
 
 # Using not
 from sqlalchemy import not_
 User.query.filter(not_(User.username == 'admin')).all() # Return all users with username not equal to 'admin'
+Output: [<User 'guest'>]
 
 # Using in
 User.query.filter(User.username.in_(['admin', 'guest'])).all() # Return all users with username in the list ['admin', 'guest']
+Output: [<User 'admin'>, <User 'guest'>]
+
+```
+
+```python
+
+Data in database
+id  username email date_joined
+# 1	Sandesh Sachdev sandeshsachdev27@gmail.com	2023-06-09
+# 2	Rahul Goel	rahulagoel1@gmail.com	2023-06-09
+# 3	Yash Thakre	yashthakre@gmail.com	2022-02-14
+# 4	Hevesh Lakhwani	hevesh001@gmail.com	2021-10-08
+# 5	Henay Lakhwani	lakhwanih@gmail.com	2018-05-01
 
 # Datetime 
 from datetime import datetime
-User.query.filter(User.last_seen.between('2016-01-01 00:00:00', '2016-01-31 23:59:59')).all() # Return all users with last_seen between 2016-01-01 and 2016-01-31
-
-User.query.filter(User.last_seen.between(datetime(2016, 1, 1), datetime(2016, 1, 31))).all() # Return all users with last_seen between 2016-01-01 and 2016-01-31
+User.query.filter(User.date_joined.between('2016-01-01 00:00:00', '2021-01-31 23:59:59')).all() # Return all users with date_joined between 2016-01-01 and 2021-01-31
+Output: [<5, Henay Lakhwani, lakhwanih@gmail.com, 2018-05-01>]
 
 User.query.filter(User.date_joined > date(2020,1,1)).order_by(User.name.asc()).all() # Return all users with date_joined after 2020-01-01 ordered by name ascending
+Output: [<4, Hevesh Lakhwani, hevesh001@gmail.com, 2021-10-08>, <2, Rahul Goel, rahulagoel1@gmail.com, 2023-06-09>, <1, Sandesh Sachdev, sandeshsachdev27@gmail.com, 2023-06-09>, <3, Yash Thakre, yashthakre@gmail.com, 2022-02-14>]
 
 ### Adding data into Varibale
 user_joined = User.query.filter(User.date_joined > date(2020,1,1)).order_by(User.name.asc()).all()
 
 For user in user_joined:
     print(user.name)
+
+Output: Hevesh Lakhwani
+        Rahul Goel
+        Sandesh Sachdev
+        Yash Thakre
 ```
 
