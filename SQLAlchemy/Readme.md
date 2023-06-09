@@ -1,7 +1,5 @@
 # Flask SQLAlchemy
 
-## Description
-
 Flask SQLAlchemy is a Flask extension that adds support for SQLAlchemy to your application. It aims to simplify using SQLAlchemy with Flask by providing useful defaults and extra helpers that make it easier to accomplish common tasks.
 
 ## References
