@@ -4,6 +4,10 @@
 
 Flask SQLAlchemy is a Flask extension that adds support for SQLAlchemy to your application. It aims to simplify using SQLAlchemy with Flask by providing useful defaults and extra helpers that make it easier to accomplish common tasks.
 
+## References
+
+- [Flask SQLAlchemy by PrettyPrinted](https://www.youtube.com/@prettyprinted)
+
 ## Installation
 
 ```bash
@@ -82,6 +86,39 @@ User.query.order_by(User.username).all() # Return all users ordered by username
 User.query.limit(10).all() # Return the first 10 users
 User.query.get(1) # Return the user with id 1
 User.query.filter_by(username='admin').count() # Return the number of users with username 'admin'
-```
 
+# Using filter
+User.query.filter(User.username.like('%dmin%')).all() # Return all users with username containing 'dmin'
+User.query.filter(User.username.like('Ad%')).all() # Return all users with username starting with 'Ad'
+User.query.filter(User.username == 'admin').all() # Return all users with username 'admin'
+
+# Using or
+from sqlalchemy import or_
+User.query.filter(or_(User.username == 'admin', User.username == 'guest')).all() # Return all users with username 'admin' or 'guest'
+
+# Using and
+from sqlalchemy import and_
+User.query.filter(and_(User.username == 'admin', User.email == 'test@example.com')).all() # Return all users with username 'admin' and email 'test@example'
+
+# Using not
+from sqlalchemy import not_
+User.query.filter(not_(User.username == 'admin')).all() # Return all users with username not equal to 'admin'
+
+# Using in
+User.query.filter(User.username.in_(['admin', 'guest'])).all() # Return all users with username in the list ['admin', 'guest']
+
+# Datetime 
+from datetime import datetime
+User.query.filter(User.last_seen.between('2016-01-01 00:00:00', '2016-01-31 23:59:59')).all() # Return all users with last_seen between 2016-01-01 and 2016-01-31
+
+User.query.filter(User.last_seen.between(datetime(2016, 1, 1), datetime(2016, 1, 31))).all() # Return all users with last_seen between 2016-01-01 and 2016-01-31
+
+User.query.filter(User.date_joined > date(2020,1,1)).order_by(User.name.asc()).all() # Return all users with date_joined after 2020-01-01 ordered by name ascending
+
+### Adding data into Varibale
+user_joined = User.query.filter(User.date_joined > date(2020,1,1)).order_by(User.name.asc()).all()
+
+For user in user_joined:
+    print(user.name)
+```
 
