@@ -27,5 +27,5 @@ python app.py
 ## References
 
 - [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/)
--[FLASK BOOKMARKS API](https://www.youtube.com/playlist?list=PLx-q4INfd95FIt5v6Pza6HjUwtK7sOXmN)
--[FreeCodeCamp](https://www.youtube.com/watch?v=Z1RJmh_OqeA)
+- [FLASK BOOKMARKS API ( Youtube ) ](https://www.youtube.com/playlist?list=PLx-q4INfd95FIt5v6Pza6HjUwtK7sOXmN)
+- [FreeCodeCamp ( Youtube )](https://www.youtube.com/watch?v=Z1RJmh_OqeA)
