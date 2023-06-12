@@ -311,3 +311,68 @@ Output
 
 
 ```
+
+## Executing Custom SQL Queries
+
+```python
+
+# Executing Custom SQL Queries
+db.session.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)')
+db.session.execute('INSERT INTO users (name) VALUES (:name)', {'name': 'admin'})
+
+# Executing Custom SQL Queries with Result
+result = db.session.execute('SELECT * FROM users')
+for row in result:
+    print(row)
+
+```
+
+## Using Different Schemas
+
+```Python
+class User(db.Model):
+    __tablename__ = 'users' 
+    __table_args__ = {'schema': 'test'} 
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+db.create_all()
+```
+
+## Using Multiple Databases
+
+```python
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_BINDS'] = {
+    'users':        'sqlite:///users.sqlite3',
+    'appmeta':      'sqlite:///appmeta.sqlite3'
+}
+
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    __bind_key__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+class AppMeta(db.Model):
+    __bind_key__ = 'appmeta'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=True, nullable=False)
+    value = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<AppMeta %r>' % self.name
+
+db.create_all()
+
+```

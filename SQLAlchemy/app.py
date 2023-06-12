@@ -2,10 +2,12 @@ from flask import Flask,g
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.sqlite3"
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database_many_many.sqlite3"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
 
@@ -13,6 +15,7 @@ db = SQLAlchemy(app)
 @app.route('/',methods=['GET'])
 def index():
     return "HELLO WORLD"
+
 
 
 # class User(db.Model):
