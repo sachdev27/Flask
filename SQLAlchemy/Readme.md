@@ -299,4 +299,15 @@ Output
 >>> channel7.followers
 []
 
+
+# Removing data from Many to Many Relationship
+
+>>> user1.following.remove(channel1)
+>>> user1.following.remove(channel2)
+
+
+>>> user1.following
+[<Channel :  SQLAlchemy>, <Channel :  Django>]
+
+
 ```
