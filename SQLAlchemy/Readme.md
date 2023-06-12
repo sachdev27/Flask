@@ -166,5 +166,137 @@ Output: Hevesh Lakhwani
         Yash Thakre
 ```
 
+## One to Many Relationship
+
+```python
+
+class User(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(50))
+    posts = db.relationship('Post',backref='author')
+    
+    def __repr__(self):
+        return f"<User :  {self.name}>"
+
+class Post(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    title = db.Column(db.String(50))
+    content = db.Column(db.Text)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
+    
+    def __repr__(self):
+        return f"<Post :  {self.title}>"
+
+Output
+>>> user1 = User(name='Sandesh')
+>>> user2 = User(name='Rahul')
+>>> user3 = User(name='Yash')
+>>> user4 = User(name='Hevesh')
+>>> user5 = User(name='Henay')
+>>> post1 = Post(title='Python',content='Python is a programming language',author=user1)
+>>> post2 = Post(title='Flask',content='Flask is a web framework',author=user1)
+>>> post3 = Post(title='SQLAlchemy',content='SQLAlchemy is a ORM',author=user1)
+>>> post4 = Post(title='Django',content='Django is a web framework',author=user1)
+>>> post5 = Post(title='FastAPI',content='FastAPI is a web framework',author=user1)
+>>> post6 = Post(title='PyTorch',content='PyTorch is a deep learning framework',author=user1)
 
 
+>>> db.session.add([user1,user2,user3,user4,user5])
+>>> db.session.commit()
+
+>>> user1.posts
+[<Post :  Python>, <Post :  Flask>, <Post :  SQLAlchemy>, <Post :  Django>, <Post :  FastAPI>, <Post :  PyTorch>]
+
+>>> user2.posts
+[]
+
+>>> user3.posts
+[]
+
+>>> user4.posts
+[]
+```
+
+## Many to Many Relationship
+
+```python
+user_channel = db.Table('user_channel',
+            db.Column('user_id',db.Integer,db.ForeignKey('user.id')),            
+            db.Column('channel_id',db.Integer,db.ForeignKey('channel.id')),            
+            )
+
+class User(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(50))
+    following = db.relationship('Channel',secondary=user_channel,backref='followers')
+    
+    def __repr__(self):
+        return f"<User :  {self.name}>"
+    
+class Channel(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(50))
+
+
+Output
+>>> user1 = User(name='Sandesh')
+>>> user2 = User(name='Rahul')
+>>> user3 = User(name='Yash')
+>>> user4 = User(name='Hevesh')
+>>> user5 = User(name='Henay')
+>>> channel1 = Channel(name='Python')
+>>> channel2 = Channel(name='Flask')
+>>> channel3 = Channel(name='SQLAlchemy')
+>>> channel4 = Channel(name='Django')
+>>> channel5 = Channel(name='FastAPI')
+>>> channel6 = Channel(name='PyTorch')
+>>> channel7 = Channel(name='Tensorflow')
+>>> channel8 = Channel(name='Keras')
+
+>>> user1.following.append(channel1)
+>>> user1.following.append(channel2)
+>>> user1.following.append(channel3)
+>>> user1.following.append(channel4)
+
+>>> user2.following.append(channel1)
+>>> user2.following.append(channel2)
+
+>>> user3.following.append(channel1)
+>>> user3.following.append(channel2)
+>>> user3.following.append(channel3)
+
+>>> user4.following.append(channel1)
+>>> user4.following.append(channel2)
+>>> user4.following.append(channel3)
+>>> user4.following.append(channel4)
+
+>>> user5.following.append(channel1)
+
+>>> db.session.add([user1,user2,user3,user4,user5])
+>>> db.session.commit()
+
+>>> user1.following
+[<Channel :  Python>, <Channel :  Flask>, <Channel :  SQLAlchemy>, <Channel :  Django>]
+
+>>> channel1.followers
+[<User :  Sandesh>, <User :  Rahul>, <User :  Yash>, <User :  Hevesh>, <User :  Henay>]
+
+>>> channel2.followers
+[<User :  Sandesh>, <User :  Rahul>, <User :  Yash>, <User :  Hevesh>]
+
+>>> channel3.followers
+[<User :  Sandesh>, <User :  Yash>, <User :  Hevesh>]
+
+>>> channel4.followers
+[<User :  Sandesh>, <User :  Hevesh>]
+
+>>> channel5.followers
+[]
+
+>>> channel6.followers
+[]
+
+>>> channel7.followers
+[]
+
+```
