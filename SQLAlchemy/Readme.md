@@ -466,3 +466,29 @@ if __name__ == '__main__':
 </html>
 
 ```
+
+``` Other Pagination Functionalities 
+
+# Pagination in CMD
+
+>>> users = User.query.paginate(page=1, per_page=2)
+>>> users.items
+[<User 'admin'>, <User 'guest'>]
+>>> users.has_next
+True
+>>> users.has_prev
+False
+>>> users.next_num
+2
+>>> users.prev_num
+None
+>>> users.page
+1
+>>> users.pages
+2
+>>> users.per_page
+2
+>>> users.total
+4
+
+```
