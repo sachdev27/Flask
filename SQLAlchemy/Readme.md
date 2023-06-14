@@ -392,3 +392,77 @@ db.create_all()
 
 ```
 
+## Pagination
+
+Definition : Pagination is the process of dividing a document into discrete pages, either electronic pages or printed pages.
+
+```python
+
+# Pagination
+from flask import Flask, render_template, request
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+db.create_all()
+
+@app.route('/')
+def index():
+    page = request.args.get('page', 1, type=int)
+    users = User.query.paginate(page=page, per_page=2)
+    return render_template('index.html', users=users)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+```
+
+```html
+
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask SQLAlchemy</title>
+</head>
+<body>
+    <h1>Flask SQLAlchemy</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users.items %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if users.has_prev %}
+    <a href="{{ url_for('index', page=users.prev_num) }}">Prev</a>
+    {% endif %}
+    {% if users.has_next %}
+    <a href="{{ url_for('index', page=users.next_num) }}">Next</a>
+    {% endif %}
+
+</body>
+</html>
+
+```
