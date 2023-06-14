@@ -166,6 +166,21 @@ Output: Hevesh Lakhwani
         Yash Thakre
 ```
 
+## Checking Constraints
+
+```python
+# Checking Constraints in Model
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False, check="username != 'admin'")
+    email = db.Column(db.String(120), unique=True, nullable=False, db.CheckConstraint('email != "'))
+    date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+
 ## One to Many Relationship
 
 ```python
@@ -376,3 +391,4 @@ class AppMeta(db.Model):
 db.create_all()
 
 ```
+
