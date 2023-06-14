@@ -492,3 +492,17 @@ None
 4
 
 ```
+
+## Bulk Update and Deletion
+
+```python
+
+# Bulk Update
+User.query.filter_by(username='admin').update({'username': 'new_admin'})
+db.session.commit()
+
+# Bulk Deletion
+User.query.filter_by(username='new_admin').delete()
+db.session.commit()
+
+```
