@@ -517,6 +517,10 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    # What is lazy='dynamic'?
+    # If you don't use lazy='dynamic', then posts will be a list of Post objects.
+    # If you use lazy='dynamic', then posts will be a query object which you can further refine.
+    
 
     def __repr__(self):
         return '<User %r>' % self.username
