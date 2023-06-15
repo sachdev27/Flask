@@ -506,3 +506,41 @@ User.query.filter_by(username='new_admin').delete()
 db.session.commit()
 
 ```
+
+## Lazy Parameter
+
+```python
+
+# Lazy Parameter
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<Post %r>' % self.title
+
+db.create_all()
+
+# Lazy Parameter
+user = User.query.first()
+user.posts.all() # Return all posts of the user
+user.posts.filter_by(title='First Post').all() # Return all posts of the user with title 'First Post'
+user.posts.filter_by(title='First Post').first() # Return the first post of the user with title 'First Post'
+user.posts.filter_by(title='First Post').delete() # Delete all posts of the user with title 'First Post'
+user.posts.filter_by(title='First Post').update({'title': 'New Title'}) # Update all posts of the user with title 'First Post'
+user.posts.filter_by(title='First Post').count() # Return the number of posts of the user with title 'First Post'
+user.posts.filter_by(title='First Post').paginate(page=1, per_page=2) # Return the first 2 posts of the user with title 'First Post'
+user.posts.filter_by(title='First Post').order_by(Post.title).all() # Return all posts of the user with title 'First Post' ordered by title
+
+```
