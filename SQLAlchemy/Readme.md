@@ -520,7 +520,7 @@ class User(db.Model):
     # What is lazy='dynamic'?
     # If you don't use lazy='dynamic', then posts will be a list of Post objects.
     # If you use lazy='dynamic', then posts will be a query object which you can further refine.
-    
+
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -548,3 +548,9 @@ user.posts.filter_by(title='First Post').paginate(page=1, per_page=2) # Return t
 user.posts.filter_by(title='First Post').order_by(Post.title).all() # Return all posts of the user with title 'First Post' ordered by title
 
 ```
+
+
+## Left Outer Join
+
+```python
+
